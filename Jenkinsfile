@@ -19,12 +19,27 @@ pipeline {
             }
         }
         stage('Deliver') {
+            environment {
+                NEXUS_CRED = credentials('Qindel-narenas-credentials')
+                CONFIG_FIE = configFile('4e515527-68b5-4af1-b63e-eb350d2b8233')
+            }
             steps {
-                sh '''
+                configFileProvider([configFile(fileId: '4e515527-68b5-4af1-b63e-eb350d2b8233', variable: 'MAVEN_GLOBAL_SETTINGS')]) {
+                    sh '''
                     mvn jar:jar install:install help:evaluate -Dexpression=project.name
                     NAME=`mvn help:evaluate -Dexpression=project.name | grep "^[^\\[]"` 
                     VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\\[]"`
-                '''
+                    mvn -gs $MAVEN_GLOBAL_SETTINGS deploy
+                    '''
+                }
+                // sh '''
+                //     mvn jar:jar install:install help:evaluate -Dexpression=project.name
+                //     NAME=`mvn help:evaluate -Dexpression=project.name | grep "^[^\\[]"` 
+                //     VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\\[]"`
+                //     sh 'mvn clean install -Dserver.username=${NEXUS_CRED_USR} -Dserver.password=${NEXUS_CRED_PSW}'
+                // '''
+                }
+
             }
         }
     }
