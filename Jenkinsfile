@@ -32,14 +32,6 @@ pipeline {
                     mvn -gs $MAVEN_GLOBAL_SETTINGS deploy
                     '''
                 }
-                // sh '''
-                //     mvn jar:jar install:install help:evaluate -Dexpression=project.name
-                //     NAME=`mvn help:evaluate -Dexpression=project.name | grep "^[^\\[]"` 
-                //     VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\\[]"`
-                //     sh 'mvn clean install -Dserver.username=${NEXUS_CRED_USR} -Dserver.password=${NEXUS_CRED_PSW}'
-                // '''
-                }
-
             }
         }
     }
