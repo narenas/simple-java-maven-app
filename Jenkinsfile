@@ -1,6 +1,9 @@
 pipeline {
     agent {
-        docker { image 'maven:3.3.9-jdk-8-alpine' }
+        docker { 
+            image 'maven:3.3.9-jdk-8-alpine' 
+            args '-v /etc/hosts:/etc/hosts'
+        }
     }
     stages {
         stage('Build') {
