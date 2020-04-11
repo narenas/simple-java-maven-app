@@ -21,8 +21,8 @@ pipeline {
         stage('Deliver') {
             steps {
                 sh '''
-                    NAME=`mvn help:evaluate -Dexpression=project.name | grep "^[^\[]"` 
-                    VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\[]"`
+                    NAME=`mvn help:evaluate -Dexpression=project.name | grep "^[^\\[]"` 
+                    VERSION=`mvn help:evaluate -Dexpression=project.version | grep "^[^\\[]"`
                     ls -l target/${NAME}-${VERSION}.jar
                 '''
             }
